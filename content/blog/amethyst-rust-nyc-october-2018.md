@@ -6,7 +6,7 @@ draft: false
 
 # Amethyst: The Gem in the Rust
 
-__I originally wrote this all up in preparation for the talk I gave at the Rust NYC October Meetup in 2018. The slides are available 
+_I originally wrote this all up in preparation for the talk I gave at the Rust NYC October Meetup in 2018. The slides are available 
 [here][slides]. This is just a translation of what I said but in blog form_
 
 [slides]: https://www.slideshare.net/LucioFranco/amethyst-the-gem-in-the-rust-120999299
