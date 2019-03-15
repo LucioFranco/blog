@@ -10,7 +10,7 @@ author              = "Lucio Franco"
 title               = "Lucio Franco"
 pygmentsuseclasses  = true
 pluralizelisttitles = false
-googleAnalytics     = ""
+googleAnalytics     = "UA-68641770-1"
 
 [permalinks]
 blog  = "blog/:slug/"
