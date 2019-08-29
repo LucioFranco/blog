@@ -42,6 +42,6 @@ Cargo is my favorite package manager, it's simple, easy to use and does a great 
 Check out the [Amethyst][amethyst] website. Come join us on discord! 
 
 [eyal]: https://github.com/ebkalderon
-[soecs]: https://github.com/slide-rs/specs
+[specs]: https://github.com/slide-rs/specs
 [shred]: https://github.com/slide-rs/shred
 [amethyst]: https://amethyst.rs
