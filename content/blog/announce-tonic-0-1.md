@@ -92,7 +92,7 @@ comes closer to a full stable release Tonic will follow with its own stable rele
 ### Conclusion
 
 [`tonic`] is now available! There is [documentation], [examples][`tonic-examples`] and
-an [issue] tracker! Please provide any feedback as we would love to improve this library
+an [issue] tracker! Please provide any feedback, as we would love to improve this library
 anyway we can!
 
 Thank you to all the super awesome contributors that have helped over the past few months! Your
