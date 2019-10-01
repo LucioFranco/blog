@@ -138,3 +138,4 @@ feedback has been immensely important and valuable!
 [`noria`]: https://github.com/mit-pdos/noria
 [`grpc-go`]: https://github.com/grpc/grpc-go
 [documentation]: https://docs.rs/tonic/0.1.0-alpha.1/tonic/
+[`tower`]: https://github.com/tower-rs/tower
