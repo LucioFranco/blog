@@ -80,7 +80,7 @@ impl Greeter for MyGreeter {
 {{< /highlight >}}
 
 Servers are just as easy to implement! Using [`dtolnay`]'s amazing [`async_trait`] crate
-to allow server implementations to use `async fn` in a trait. More examples including ones with tls, authentication, and streaming are included in the [`tonic-examples`] crate.
+to allow server implementations to use `async fn` in a trait. More examples including ones with TLS, authentication, and streaming are included in the [`tonic-examples`] crate.
 
 ### Moving forward
 
