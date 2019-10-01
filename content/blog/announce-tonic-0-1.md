@@ -37,7 +37,7 @@ already supports many features, with many more planned! Here is a list of featur
 - Custom metadata
 - Trailing metadata
 - Codegen via [`prost`]
-- [`tracing`] support (more to come)
+- Exposes [`tracing`] diagnostics (more to come)
 - Fully featured HTTP/2 client and server
 - TLS backed by either [`openssl`] or [`rustls`]
 - Load balancing powered by [`tower`]
