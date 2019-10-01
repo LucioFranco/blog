@@ -84,7 +84,7 @@ to allow server implementations to use `async fn` in a trait. More examples incl
 
 ### Moving forward
 
-Today marks Tonic's first alpha release, over the next few months we will be working hard
+Today marks Tonic's first alpha release, and over the next few months we will be working hard
 to ensure that Tonic is ready for production usage. A lot of the implementation has already
 been proven in production environments via [`tower-grpc`]. Over the next few months as [`tokio`]
 comes closer to a full stable release Tonic will follow with its own stable releases.
