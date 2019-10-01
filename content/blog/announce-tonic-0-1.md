@@ -13,7 +13,7 @@ releases will follow in the coming months.
 
 ### What is Tonic?
 
-> Tonic is a gRPC over HTTP/2 implementation focused on high performance, interoperability, and flexibility. This library was created to have first class support of async/await and to act as a core building block for production systems written in Rust.
+> Tonic is a gRPC-over-HTTP/2 implementation focused on high performance, interoperability, and flexibility. This library was created to have first class support of async/await and to act as a core building block for production systems written in Rust.
 
 Tonic's prior incarnation was known as [`tower-grpc`]. It was built to satisfy [linkerd]'s need for a production-ready gRPC implementation. [`tower-grpc`] was based upon the [`tower`] library, which has production uses in systems such as the [`linkerd-proxy`], [`vector`], and the [`noria`] database at MIT. The [`tower`] library has also seen usage in additional libraries such as  [`warp`], [`tower-web`], and [`actix-net`].
 
