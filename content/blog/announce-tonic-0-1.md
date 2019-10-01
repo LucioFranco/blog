@@ -41,7 +41,7 @@ already supports many features, with many more planned! Here is a list of featur
 - Fully featured HTTP/2 client and server
 - TLS backed by either [`openssl`] or [`rustls`]
 - Load balancing powered by [`tower`]
-- Timeouts, rate limiting, concurrency control, etc
+- Reliability features such as timeouts, rate limiting, concurrency control, and more
 - gRPC interceptors
 - And much more to come
 
