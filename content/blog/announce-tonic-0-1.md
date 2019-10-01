@@ -19,7 +19,7 @@ Tonic's prior incarnation was known as [`tower-grpc`]. It was built to satisfy [
 
 With async/await’s forthcoming stabilization, we created Tonic to support the new syntax natively. This means clients will support async/await out of the box and server
 implementations can be defined via [`async_trait`]s. This provides an unparalleled experience for
-writing async services quickly and efficiently. Not only does Tonic provide a fully featured gRPC implementation but it also comes with a fully featured, batteries included, HTTP/2 client and server built
+writing async services quickly and efficiently. Not only does Tonic provide a fully featured gRPC implementation but it also comes with a fully featured, batteries-included, HTTP/2 client and server built
 around [`hyper`], [`tokio`]and [`tower`]. Both the client and server implementation provide TLS backed by
 either [`openssl`] or [`rustls`]. The client provides load balancing, interceptors, timeouts, rate limiting,
 concurrency control and more!
