@@ -28,7 +28,7 @@ The library also boasts strong interoperability with [`grpc-go`] which contains 
 
 ### Features
 
-Out of the gate the goal for Tonic has been to provide a good batteries included experience. It
+Out of the gate, the goal for Tonic has been to provide a good batteries included experience. It
 already supports many features with many more planned! Here is a list of features:
 
 - Implemented in pure Rust (minus [`openssl`] which is optional)
