@@ -17,7 +17,7 @@ releases will follow in the coming months.
 
 Tonic's prior incarnation was known as [`tower-grpc`]. It was built to satisfy [linkerd]'s need for a production-ready gRPC implementation. [`tower-grpc`] was based upon the [`tower`] library, which has production uses in systems such as the [`linkerd-proxy`], [`vector`], and the [`noria`] database at MIT. The [`tower`] library has also seen usage in additional libraries such as  [`warp`], [`tower-web`], and [`actix-net`].
 
-With async/await’s forthcoming stabilization, we created Tonic to support the new syntax natively. This means clients out of the box will support async/await and server
+With async/await’s forthcoming stabilization, we created Tonic to support the new syntax natively. This means clients will support async/await out of the box and server
 implementations can be defined via [`async_trait`]'s. This provides an unparalleled experience for
 writing async services quickly and efficiently. Not only does Tonic provide a fully featured gRPC implementation but it also comes with a fully featured, batteries included, HTTP/2 client and server built
 around [`hyper`], [`tokio`]and [`tower`]. Both the client and server implementation provide TLS backed by
