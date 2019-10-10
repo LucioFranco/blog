@@ -118,7 +118,7 @@ feedback has been immensely important and valuable!
 [`tonic-build`]: https://github.com/hyperium/tonic/tree/master/tonic-build
 [`tonic-examples`]: https://github.com/hyperium/tonic/tree/master/tonic-examples
 [`warp`]: https://github.com/seanmonstar/warp
-[`tower-web`]: https://github.com/seanmonstar/warp
+[`tower-web`]: https://github.com/carllerche/tower-web
 [`actix-net`]: https://github.com/actix/actix-net
 [`noria`]: https://github.com/mit-pdos/noria
 [`grpc-go`]: https://github.com/grpc/grpc-go
