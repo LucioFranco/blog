@@ -1,7 +1,7 @@
 ---
 title: "Tonic: 0.1 has arrived!"
 url: "/tonic-0-1-release"
-date: 2020-01-13T10:00:00-04:00
+date: 2020-01-14T10:00:00-04:00
 draft: false
 ---
 
@@ -36,8 +36,8 @@ dependencies!
 
 The build-in transport module no longer supports `openssl`. Instead, Tonic defaults to `rustls`, which should simplify building Tonic-based applications and libraries. However, I recognize that Tonic users might want to use a different TLS library, so Tonic supports customization via [constructor client] and [constructor server].
 
-[`server`]: http://linktodocs
-[`client`]: http://linktodocs
+[constructor server]: https://docs.rs/tonic/0.1.0/tonic/transport/server/struct.Router.html#method.serve_with_incoming 
+[constructor client]: https://docs.rs/tonic/0.1.0/tonic/transport/struct.Endpoint.html#method.connect_with_connector 
 
 ### Interceptors
 
@@ -61,6 +61,9 @@ fn intercept(req: Request<()>) -> Result<Request<()>, Status> {
 }
 {{< /highlight >}}
 
+One key thing to note here is that these interceptors are transport agnostic. They are pure gRPC, it does
+not matter where you get the request from, it could be via `grpc-web` or `http2`.
+
 More examples of this usage can be found [`here`].
 
 [`here`]: https://github.com/hyperium/tonic/tree/master/examples/src/interceptor 
@@ -77,5 +80,5 @@ if you need any help!
 
 [`tower`]: https://github.com/tower-rs/tower
 [changelog]: https://github.com/hyperium/tonic/blob/master/CHANGELOG.md
-[issue]: https://github.com/hyperium/tonic/issues?
+[issue]: https://github.com/hyperium/tonic/issues
 [discord]: https://discord.gg/tokio
