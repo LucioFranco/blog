@@ -1,127 +1,84 @@
 ---
-title: "Tonic: gRPC has come to async/await!"
-url: "/tonic-grpc-has-come-to-async-await"
-date: 2019-10-02T10:00:00-04:00
+title: "Tonic: 0.1 has arrived!"
+url: "/tonic-0-1-release"
+date: 2020-01-14T10:00:00-04:00
 draft: false
 ---
 
-# Tonic: gRPC has come to async/await!
+# Tonic: 0.1 has arrived!
 
-I am pleased to finally announce a crate that I have been working very hard on for the
-past few months. [`tonic`] has finally hit the initial [`0.1.0-alpha.1`] release! Stable
-releases will follow in the coming months.
+[`tonic`] is a gRPC over HTTP/2 implementation focused on high performance, 
+interoperability, and flexibility. 
+It has been a few months since I originally released the `0.1.0-alpha.1` version. Since then there has been a ton of growth and improvements. We've seen 32 new [`contributors`], two new 
+[`guides`], 8 more [`examples`] and 5  [`releases`]. Not only have we seen a lot of growth internally but we've also seen a large amount of adoption. 
 
-### What is Tonic?
+[`contributors`]: https://github.com/hyperium/tonic/graphs/contributors
+[`guides`]: https://github.com/hyperium/tonic/blob/master/examples
+[`examples`]: https://github.com/hyperium/tonic/tree/master/examples/src
+[`releases`]: https://github.com/hyperium/tonic/releases
+[`tonic`]: https://github.com/hyperium/tonic
 
-> Tonic is a gRPC-over-HTTP/2 implementation focused on high performance, interoperability, and flexibility. This library was created to have first class support of async/await and to act as a core building block for production systems written in Rust.
+## Changes
 
-Tonic began its life as  [`tower-grpc`], which was built to satisfy [linkerd]'s need for a production-ready gRPC implementation. [`tower-grpc`] was based upon `futures 0.1` and built ontop of the [`tower`] library, which has production uses in systems such as the [`linkerd-proxy`], [`vector`], and the [`noria`] database at MIT. The [`tower`] library has also seen usage in additional libraries such as  [`warp`], [`tower-web`], and [`actix-net`].
+Since the first `0.1.0-alpha.1` release, Tonic made several ergonomic changes.
 
-With async/await’s forthcoming stabilization, we created Tonic to support the new syntax natively. This means clients will support async/await out of the box and server
-implementations can be defined via [`async_trait`]s. This provides an unparalleled experience for
-writing async services quickly and efficiently. Not only does Tonic provide a fully featured gRPC implementation but it also comes with a fully featured, batteries-included, HTTP/2 client and server built
-around [`hyper`], [`tokio`] and [`tower`]. Both the client and server implementation provide TLS backed by
-either [`openssl`] or [`rustls`]. The client provides load balancing, interceptors (middleware), timeouts, rate limiting, concurrency control and more!
+### Upgrades EVERYWHERE
 
-Tonic also boasts strong interoperability and correctness. Every commit is checked that it passes
-the [gRPC interop test cases][interop-cases] against the [`grpc-go`] implementation. Hopefully, more
-languages can be added in the future.
+Tonic was originally released as an alpha because a majority of the crates it depended on were also alphas. `0.1` signifies that all our dependencies are as lean
+as possible.
+For instance: `syn` and `quote` are at 1.0,  `bytes`  is set to 0.5 and `hyper` is at 0.13
+Thanks to all the maintainers for helping push out all these releases! Also, I would like to note that [`cargo-deny`] has been very helpful in ensuring that we have no duplicate
+dependencies!
 
-### Features
+[`cargo-deny`]: https://github.com/EmbarkStudios/cargo-deny
 
-Tonic's goal is to provide a good batteries-included experience. It already
-supports many features, with many more planned! Here is a list of features:
+### Goodbye openssl, hello rustls
 
-- Implemented in pure Rust (minus [`openssl`] which is optional)
-- Interoperability tested via [`tonic-interop`]
-- Bi-directional streaming
-- Custom metadata
-- Trailing metadata
-- Codegen via [`prost`]
-- Exposes [`tracing`] diagnostics
-- Fully featured HTTP/2 client and server based on [`hyper`]
-- TLS backed by either [`openssl`] or [`rustls`]
-- Load balancing powered by [`tower`]
-- Reliability features such as timeouts, rate limiting, concurrency control, and more
-- gRPC interceptors
-- And much more to come
+The build-in transport module no longer supports `openssl`. Instead, Tonic defaults to `rustls`, which should simplify building Tonic-based applications and libraries. However, I recognize that Tonic users might want to use a different TLS library, so Tonic supports customization via [constructor client] and [constructor server].
 
-### Overview
+[constructor server]: https://docs.rs/tonic/0.1.0/tonic/transport/server/struct.Router.html#method.serve_with_incoming 
+[constructor client]: https://docs.rs/tonic/0.1.0/tonic/transport/struct.Endpoint.html#method.connect_with_connector 
 
-_helloworld **client** example:_
+### Interceptors
+
+Tonic also supports gRPC interceptors (non-gRPC ecosystems might refer to “interceptors” as “middleware”). Like the name suggests, interceptors allow clients and servers to intercept a request and perform an arbitrary action, like adding headers to sign a request or logging a request. See the example below:
 
 {{< highlight rust >}}
-let mut client = GreeterClient::connect("http://[::1]:50051")?;
-let request = Request::new(HelloRequest {
-    name: "hello".into(),
-});
-let response = client.say_hello(request).await?;
-println!("RESPONSE={:?}", response);
-{{< /highlight >}}
-
-This shows how easy it is to build a simple gRPC client using code generated by the [`tonic-build`] crate.  Internally, `connect` will create the most basic "channel/client" but it is possible to configure this to support TLS, load balancing, timeouts and more.
-
-_helloworld **server** example:_
-
-{{< highlight rust >}}
-#[tonic::async_trait]
-impl Greeter for MyGreeter {
-    async fn say_hello(&self, req: Request<HelloRequest>)
-        -> Result<Response<HelloReply>, Status>
-    {
-        println!("Got a request: {:?}", req);
-        let reply = HelloReply {
-            message: "Zomg, it works!".into(),
-        };
-        Ok(Response::new(reply))
-    }
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let channel = Endpoint::from_static("http://[::1]:50051")
+        .connect()
+        .await?;
+    let mut client = GreeterClient::with_interceptor(channel, intercept);
+   // snip
+}
+/// This function will get called on each outbound request. Returning a
+/// `Status` here will cancel the request and have that status returned to
+/// the client.
+fn intercept(req: Request<()>) -> Result<Request<()>, Status> {
+    println!("Intercepting request: {:?}", req);
+    Ok(req)
 }
 {{< /highlight >}}
 
-Servers are simple to implement using [`dtolnay`]'s amazing [`async_trait`] crate,
-which allow server implementations to use `async fn` for their implementation. The [`tonic-examples`]
-crate demonstrates more advanced cases with TLS, authentication, load balancing, streaming and more.
+One key thing to note here is that these interceptors are transport agnostic. They are pure gRPC, it does
+not matter where you get the request from, it could be via `grpc-web` or `http2`.
 
-### Moving forward
+More examples of this usage can be found [`here`].
 
-Today marks Tonic's first alpha release, and over the next few months we will be working hard
-to ensure that Tonic is ready for production usage. A lot of the implementation has already
-been proven in production environments via [`tower-grpc`]. Over the next few months as [`tokio`] 0.2
-comes closer to a full stable release, Tonic will follow with its own stable releases.
+[`here`]: https://github.com/hyperium/tonic/tree/master/examples/src/interceptor 
 
-### Conclusion
+## v0.1.0
 
-[`tonic`] is now available! There is [documentation], [examples][`tonic-examples`] and
-an [issue] tracker! Please provide any feedback, as we would love to improve this library
-any way we can!
+I'd like to give a special shoutout to all those that helped the project grow by opening issues, trying
+Tonic out and opening PRs.   
 
-Thank you to all the super awesome contributors that have helped over the past few months! Your
-feedback has been immensely important and valuable!
+That said, I am super happy to finally release the `0.1` release of `tonic`. This is the first stepping
+stone in a great ecosystem built on top of [`tower`]. As always, there is a  [changelog] and
+an [issue] tracker if you run into any issues. Please, feel welcome to also join us on [discord]
+if you need any help! 
 
-[`tonic`]: https://github.com/hyperium/tonic
-[issue]: https://github.com/hyperium/tonic/issues/new
-[`hyper`]: https://github.com/hyperium/hyper
 [`tower`]: https://github.com/tower-rs/tower
-[`tokio`]: https://github.com/tokio-rs/tokio
-[`tracing`]: https://github.com/tokio-rs/tracing
-[`rustls`]: https://github.com/ctz/rustls
-[`openssl`]: https://github.com/sfackler/rust-openssl
-[`prost`]: https://github.com/danburkert/prost
-[`tower-grpc`]: https://github.com/tower-rs/tower-grpc
-[`0.1.0-alpha.1`]: https://crates.io/crates/tonic/0.1.0-alpha.1
-[`async_trait`]: https://crates.io/crates/async-trait
-[`dtolnay`]: https://github.com/dtolnay
-[linkerd]: https://linkerd.io/
-[`vector`]: https://github.com/timberio/vector
-[`linkerd-proxy`]: https://github.com/linkerd/linkerd2-proxy
-[`tonic-interop`]: https://github.com/hyperium/tonic/tree/master/tonic-interop
-[`tonic-build`]: https://github.com/hyperium/tonic/tree/master/tonic-build
-[`tonic-examples`]: https://github.com/hyperium/tonic/tree/master/tonic-examples
-[`warp`]: https://github.com/seanmonstar/warp
-[`tower-web`]: https://github.com/carllerche/tower-web
-[`actix-net`]: https://github.com/actix/actix-net
-[`noria`]: https://github.com/mit-pdos/noria
-[`grpc-go`]: https://github.com/grpc/grpc-go
-[documentation]: https://docs.rs/tonic/0.1.0-alpha.1/tonic/
-[`tower`]: https://github.com/tower-rs/tower
-[interop-cases]: https://github.com/grpc/grpc/blob/master/doc/interop-test-descriptions.md
+[changelog]: https://github.com/hyperium/tonic/blob/master/CHANGELOG.md
+[issue]: https://github.com/hyperium/tonic/issues
+[discord]: https://discord.gg/tokio
