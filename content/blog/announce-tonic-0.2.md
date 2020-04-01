@@ -19,7 +19,7 @@ supports other encoding formats! `tonic` has always supported custom codecs
 via the `tonic::codec::Codec` trait but codegen would always tie directly to
 `prost`. Which means that if you wanted to write a custom codec you would have
 to manually replicate what `tonic-build` does. This is no longer true as we now
-have traits that can be implemetned within `tonic-build` to guide codegen in the
+have traits that can be implemented within `tonic-build` to guide codegen in the
 correct direction.
 
 In the future, `tonic` will also provide support for flatbuffers via the new
