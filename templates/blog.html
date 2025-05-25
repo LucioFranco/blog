@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="blog-list">
+    <header class="page-header">
+        <h1>{{ section.title }}</h1>
+        {% if section.content %}
+        <div class="page-description">
+            {{ section.content | safe }}
+        </div>
+        {% endif %}
+    </header>
+
+    <div class="posts">
+        {% for page in section.pages %}
+        <article class="post-preview">
+            <h2><a href="{{ page.permalink }}">{{ page.title }}</a></h2>
+            <div class="post-meta">
+                <time datetime="{{ page.date }}">{{ page.date | date(format=config.extra.dateform | default(value="%B %d, %Y")) }}</time>
+                {% if not config.extra.noshowreadtime %}
+                <span class="reading-time">{{ page.reading_time }} min read</span>
+                {% endif %}
+            </div>
+            {% if page.summary %}
+            <p class="post-summary">{{ page.summary }}</p>
+            {% endif %}
+        </article>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

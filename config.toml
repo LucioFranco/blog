@@ -1,0 +1,37 @@
+# The URL the site will be built for
+base_url = "https://luciofran.co"
+title = "Lucio Franco"
+description = "Don't panic"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = false
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = false
+
+# Generate RSS feed
+generate_feeds = true
+
+[markdown]
+# Whether to do syntax highlighting
+highlight_code = true
+
+[extra]
+# Site author and profile
+author = "Lucio Franco"
+avatar = "img/profile.png"
+selfintro = ""
+
+# Site settings
+latestpostscount = 5
+noshowreadtime = false
+dateform = "%B %d, %Y"
+dateformfull = "%B %d, %Y at %H:%M"
+
+# Social links
+github = "https://github.com/LucioFranco"
+twitter = "https://twitter.com/lucio_d_franco"
+linkedin = "https://linkedin.com/in/luciodfranco"
+
+# Favicon
+favicon = "img/leaf.ico"

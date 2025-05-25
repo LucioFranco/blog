@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<article class="post">
+    <header class="post-header">
+        <h1 class="post-title">{{ page.title }}</h1>
+        <div class="post-meta">
+            <time datetime="{{ page.date }}">{{ page.date | date(format=config.extra.dateformfull | default(value="%B %d, %Y at %H:%M")) }}</time>
+            {% if not config.extra.noshowreadtime %}
+            <span class="reading-time">{{ page.reading_time }} min read</span>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="post-content">
+        {{ page.content | safe }}
+    </div>
+
+    {% if page.taxonomies.tags %}
+    <div class="post-tags">
+        <h4>Tags:</h4>
+        {% for tag in page.taxonomies.tags %}
+        <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}" class="tag">{{ tag }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+</article>
+
+<nav class="post-nav">
+    {% if page.earlier %}
+    <div class="post-nav-prev">
+        <a href="{{ page.earlier.permalink }}">
+            <span class="nav-label">← Previous</span>
+            <span class="nav-title">{{ page.earlier.title }}</span>
+        </a>
+    </div>
+    {% endif %}
+    {% if page.later %}
+    <div class="post-nav-next">
+        <a href="{{ page.later.permalink }}">
+            <span class="nav-label">Next →</span>
+            <span class="nav-title">{{ page.later.title }}</span>
+        </a>
+    </div>
+    {% endif %}
+</nav>
+{% endblock content %}
