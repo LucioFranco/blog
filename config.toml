@@ -1,5 +1,5 @@
 # The URL the site will be built for
-base_url = "https://luciofran.co"
+base_url = "https://luciofranco.com"
 title = "Lucio Franco"
 description = "Don't panic"
 
@@ -30,7 +30,7 @@ dateformfull = "%B %d, %Y at %H:%M"
 
 # Social links
 github = "https://github.com/LucioFranco"
-twitter = "https://twitter.com/lucio_d_franco"
+twitter = "https://bsky.app/profile/luciofran.co"
 linkedin = "https://linkedin.com/in/luciodfranco"
 
 # Favicon
